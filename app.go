@@ -37,7 +37,7 @@ func main() {
 	}
 }
 
-// fetchBattery 获取电池电量信息
+// fetchBattery 获取电池电量信息,第一个参数返回电池的电量百分比(整数),如果出错,第二个参数返回error
 func fetchBattery() (int, error) {
 	var (
 		batteryPer int = 0
@@ -62,7 +62,7 @@ func fetchBattery() (int, error) {
 	return batteryPer, err
 }
 
-// supportACPI 是否支持ACPI命令
+// supportACPI 是否支持ACPI命令,如果不支持,返回error
 func supportACPI() error {
 	if _, err := exec.LookPath("acpi"); err != nil {
 		return errors.New("acpi not found in $PATH,you can use `apt-get install acpi` to intall acpi if u use Ubuntu!")
@@ -71,7 +71,7 @@ func supportACPI() error {
 	return nil
 }
 
-// fetchBatteryFromACPI  通过系统的ACPI命令获取系统电池的电量信息
+// fetchBatteryFromACPI  通过系统的ACPI命令获取系统电池的电量信息,第一个参数返回系统的返回值,如果出错,第二个参数返回error
 func fetchBatteryFromACPI() (string, error) {
 	acpiCmd := exec.Command("acpi", "b")
 	outputByte, err := acpiCmd.Output()
@@ -82,7 +82,7 @@ func fetchBatteryFromACPI() (string, error) {
 	return string(outputByte), err
 }
 
-// shutdown 关机命令
+// shutdown 关机命令,第一个参数返回系统的输出信息,如果出错,第二个参数为error
 func shutdown() (string, error) {
 	shutdownCmd := exec.Command("shutdown", "h", "now")
 	outputByte, err := shutdownCmd.Output()
