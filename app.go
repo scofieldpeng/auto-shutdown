@@ -1,13 +1,13 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"log"
 	"os/exec"
 	"regexp"
 	"strconv"
 	"time"
-    "errors"
 )
 
 func main() {
@@ -17,9 +17,9 @@ func main() {
 		log.Fatalln("low battery percentage must over 1%!")
 	}
 
-    if err := supportACPI();err != nil {
-        log.Fatalln(err)
-    }
+	if err := supportACPI(); err != nil {
+		log.Fatalln(err)
+	}
 
 	for {
 		if baterryPercentage, err := fetchBattery(); err != nil {
@@ -40,8 +40,8 @@ func main() {
 // fetchBattery 获取电池电量信息
 func fetchBattery() (int, error) {
 	var (
-		batteryPer int    = 0
-		err        error  = nil
+		batteryPer int = 0
+		err error = nil
 		batteryStr string = ""
 		regexpIns  *regexp.Regexp
 	)
@@ -64,11 +64,11 @@ func fetchBattery() (int, error) {
 
 // supportACPI 是否支持ACPI命令
 func supportACPI() error {
-    if _,err := exec.LookPath("acpi");err != nil {
-        return errors.New("acpi not found in $PATH,you can use `apt-get install acpi` to intall acpi if u use Ubuntu!")
-    }
+	if _, err := exec.LookPath("acpi"); err != nil {
+		return errors.New("acpi not found in $PATH,you can use `apt-get install acpi` to intall acpi if u use Ubuntu!")
+	}
 
-    return nil
+	return nil
 }
 
 // fetchBatteryFromACPI  通过系统的ACPI命令获取系统电池的电量信息
