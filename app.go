@@ -24,7 +24,7 @@ func main() {
 	for {
 		if baterryPercentage, err := fetchBattery(); err != nil {
 			log.Println(err.Error())
-		} else if baterryPercentage <= 10 {
+		} else if baterryPercentage <= *lowBatteryLimit {
 			// TODO email or sms notify
 			shutdownOutput, err := shutdown()
 			if err != nil {
